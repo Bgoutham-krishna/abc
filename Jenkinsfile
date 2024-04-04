@@ -81,9 +81,6 @@ pipeline {
     }
 
     post {
-        always {
-            // Clean up steps if any
-        }
 
         success {
             echo 'Pipeline executed successfully!'
