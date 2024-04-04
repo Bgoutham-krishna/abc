@@ -7,7 +7,7 @@ pipeline {
         PRODUCTION_ENVIRONMENT = "Goutham"
     }
     
-    
+
     stages {
         stage('Build') {
             steps {
