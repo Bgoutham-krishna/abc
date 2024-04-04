@@ -1,47 +1,96 @@
 pipeline {
     agent any
-    
-    environment {
-        DIRECTORY_PATH = "/path/to/code/directory"
-        TESTING_ENVIRONMENT = "TestingEnvironment"
-        PRODUCTION_ENVIRONMENT = "Goutham"
-    }
-    
 
-    
     stages {
         stage('Build') {
             steps {
-                echo "Fetch the source code from the directory path specified by the environment variable"
-                echo "Compile the code and generate any necessary artifacts"
+                echo 'Stage 1: Build - Building the code using Maven.'
+                echo 'Tool: Maven is used to compile and package the code.'
             }
         }
-        stage('Test') {
+
+        stage('Unit and Integration Tests') {
             steps {
-                echo "Unit tests"
-                echo "Integration tests"
+                echo 'Stage 2: Unit and Integration Tests - Running unit tests and integration tests.'
+                echo 'Tool: JUnit and Selenium can be used for unit and integration tests respectively.'
+            }
+            post {
+                success {
+                    emailext subject: 'Unit and Integration Tests Passed',
+                              body: 'Unit and integration tests passed successfully.',
+                              to: 's223282399@deakin.edu.au',
+                              attachmentsPattern: '**/target/surefire-reports/*.txt'
+                }
+                failure {
+                    emailext subject: 'Unit and Integration Tests Failed',
+                              body: 'Unit and integration tests failed. Please check the logs.',
+                              to: 's223282399@deakin.edu.au',
+                              attachmentsPattern: '**/target/surefire-reports/*.txt'
+                }
             }
         }
-        stage('Code') {
+
+        stage('Code Analysis') {
             steps {
-                echo "Check the quality of the code"
+                echo 'Stage 3: Code Analysis - Analyzing code using SonarQube.'
+                echo 'Tool: SonarQube is used to analyze the code and ensure it meets industry standards.'
             }
         }
-        stage('Deploy') {
+
+        stage('Security Scan') {
             steps {
-                echo "Deploy the application to a testing environment specified by the environment variable ${TESTING_ENVIRONMENT}"
+                echo 'Stage 4: Security Scan - Performing security scan using OWASP Dependency-Check.'
+                echo 'Tool: OWASP Dependency-Check identifies vulnerabilities in the code.'
+            }
+            post {
+                success {
+                    emailext subject: 'Security Scan Passed',
+                              body: 'Security scan passed successfully.',
+                              to: 's223282399@deakin.edu.au',
+                              attachmentsPattern: '**/dependency-check-report.html'
+                }
+                failure {
+                    emailext subject: 'Security Scan Failed',
+                              body: 'Security scan failed. Please check the logs.',
+                              to: 's223282399@deakin.edu.au',
+                              attachmentsPattern: '**/dependency-check-report.html'
+                }
             }
         }
-        stage('Approval') {
+
+        stage('Deploy to Staging') {
             steps {
-                echo "Waiting for manual approval..."
-                sleep time: 10, unit: 'SECONDS'
+                echo 'Stage 5: Deploy to Staging - Deploying the application to staging server.'
+                echo 'Tool: Jenkins SSH plugin or AWS CLI can be used for deployment to AWS EC2 instance.'
             }
         }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Stage 6: Integration Tests on Staging - Running integration tests on staging environment.'
+                echo 'Tool: Selenium or Postman can be used for testing in a production-like environment.'
+            }
+        }
+
         stage('Deploy to Production') {
             steps {
-                echo "Deploy the code to the production environment ${PRODUCTION_ENVIRONMENT} using the environment variable ${TESTING_ENVIRONMENT}"
+                echo 'Stage 7: Deploy to Production - Deploying the application to production server.'
+                echo 'Tool: Similar to Stage 5, deployment can be done using Jenkins SSH plugin or AWS CLI.'
             }
+        }
+    }
+
+    post {
+        always {
+            // Clean up steps if any
+        }
+
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline execution failed!'
         }
     }
 }
