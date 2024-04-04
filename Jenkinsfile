@@ -19,13 +19,13 @@ pipeline {
                 success {
                     emailext subject: 'Unit and Integration Tests Passed',
                               body: 'Unit and integration tests passed successfully.',
-                              to: 's223282399@deakin.edu.au',
+                              to: 'bgouthamkrishna3@gmail.com',
                               attachmentsPattern: '**/target/surefire-reports/*.txt'
                 }
                 failure {
                     emailext subject: 'Unit and Integration Tests Failed',
                               body: 'Unit and integration tests failed. Please check the logs.',
-                              to: 's223282399@deakin.edu.au',
+                              to: 'bgouthamkrishna3@gmail.com',
                               attachmentsPattern: '**/target/surefire-reports/*.txt'
                 }
             }
@@ -47,13 +47,13 @@ pipeline {
                 success {
                     emailext subject: 'Security Scan Passed',
                               body: 'Security scan passed successfully.',
-                              to: 's223282399@deakin.edu.au',
+                              to: 'bgouthamkrishna3@gmail.com',
                               attachmentsPattern: '**/dependency-check-report.html'
                 }
                 failure {
                     emailext subject: 'Security Scan Failed',
                               body: 'Security scan failed. Please check the logs.',
-                              to: 's223282399@deakin.edu.au',
+                              to: 'bgouthamkrishna3@gmail.com',
                               attachmentsPattern: '**/dependency-check-report.html'
                 }
             }
