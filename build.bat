@@ -1,7 +1,7 @@
-#!/bin/bash
+@echo off
 
-# Install dependencies
+:: Install dependencies
 npm install
 
-# Build the website
+:: Build the website
 npm run build
