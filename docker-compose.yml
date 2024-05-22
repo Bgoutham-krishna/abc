@@ -3,4 +3,4 @@ services:
   web:
     image: goutham3/myapp:${BUILD_ID}
     ports:
-      - "8080:8080"
+      - "8888:8080"
