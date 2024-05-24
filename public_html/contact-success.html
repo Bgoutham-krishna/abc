@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Submitted</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        table, th, td {
+            border: 1px solid #333;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        a {
+            display: block;
+            margin: 20px auto;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contact Form Submissions</h1>
+    <p>These are all the queries submitted by the users.<p>
+
+    <h2>Contact Form Data:</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Message</th>
+        </tr>
+        <!-- JavaScript will fill in this table with saved data -->
+    </table>
+
+    <a href="homefinal.html">Return to Home</a>
+
+    <script>
+
+        fetch('/contact-success-data')
+          .then((response) => response.json())
+          .then((data) => {
+            const table = document.querySelector('table');
+            const tbody = table.querySelector('tbody');
+      
+            data.forEach((row) => {
+              const newRow = document.createElement('tr');
+              newRow.innerHTML = `
+                <td>${row.Name}</td>
+                <td>${row.Email}</td>
+                <td>${row.Phone}</td>
+                <td>${row.Message}</td>
+              `;
+              tbody.appendChild(newRow);
+            });
+          })
+          .catch((error) => console.error(error));
+      </script>
+      
+</body>
+</html>
